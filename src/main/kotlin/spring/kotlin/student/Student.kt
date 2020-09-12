@@ -1,5 +1,6 @@
 package spring.kotlin.student
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence.*
 
 @Entity
@@ -11,5 +12,6 @@ data class Student (
         val phone : String,
         @ManyToOne(fetch = FetchType.LAZY, optional = false)
         @JoinColumn(name = "id_teacher")
+        @JsonIgnore
         val teacher: Teacher
 )
