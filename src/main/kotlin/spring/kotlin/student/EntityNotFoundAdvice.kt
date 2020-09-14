@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.ResponseStatus
 
 @ControllerAdvice
-class StudentNotFoundAdvice {
+class EntityNotFoundAdvice {
     @ResponseBody
-    @ExceptionHandler(StudentNotFoundException::class)
+    @ExceptionHandler(EntityNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    fun greetingNotFoundHandler(ex: StudentNotFoundException): String? {
+    fun greetingNotFoundHandler(ex: EntityNotFoundException): String? {
         return ex.message
     }
 }

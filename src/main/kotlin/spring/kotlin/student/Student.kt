@@ -13,5 +13,8 @@ data class Student (
         @ManyToOne(fetch = FetchType.LAZY, optional = false)
         @JoinColumn(name = "id_teacher")
         @JsonIgnore
-        val teacher: Teacher
+        val teacher: Teacher,
+
+        @ManyToMany(fetch = FetchType.LAZY, mappedBy = "student")
+        val course : MutableSet<Course> = HashSet()
 )

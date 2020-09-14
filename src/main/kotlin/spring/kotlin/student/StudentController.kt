@@ -47,7 +47,7 @@ class StudentController(private val repository: StudentRepository) {
     @PatchMapping("/student/{id}")
     fun updateCustomer(@PathVariable id: Long, @RequestBody patch: JsonPatch): ResponseEntity<Student>? {
         return try {
-            val student: Student = repository.findById(id).orElseThrow({ StudentNotFoundException(id) })
+            val student: Student = repository.findById(id).orElseThrow({ EntityNotFoundException(id) })
             val studentPatched: Student = applyPatchToStudent(patch, student)
             repository.save(studentPatched)
             ResponseEntity.ok<Student>(studentPatched)
@@ -55,7 +55,7 @@ class StudentController(private val repository: StudentRepository) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build<Student>()
         } catch (e: JsonProcessingException) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build<Student>()
-        } catch (e: StudentNotFoundException) {
+        } catch (e: EntityNotFoundException) {
             ResponseEntity.status(HttpStatus.NOT_FOUND).build<Student>()
         }
     }
