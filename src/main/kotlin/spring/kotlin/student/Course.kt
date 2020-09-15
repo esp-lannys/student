@@ -1,5 +1,8 @@
 package spring.kotlin.student
 
+import kotlinx.serialization.Serializable
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
 import java.util.*
 import javax.persistence.*
 import kotlin.collections.HashSet
@@ -8,22 +11,28 @@ import kotlin.collections.HashSet
 @Table(name = "bean__course")
 data class Course (
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id : Long?,
+        @Column(name = "course_name", columnDefinition = "varchar(255)")
         val courseName : String,
+        @Column(name = "room", columnDefinition = "varchar(255)")
         val room : String,
-        @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+        @ManyToMany(cascade = [CascadeType.PERSIST,CascadeType.REMOVE], fetch = FetchType.LAZY)
         @JoinTable(
                 name = "bean__course_student",
                 joinColumns = [(JoinColumn(name = "id_course"))],
                 inverseJoinColumns = [(JoinColumn(name = "id_student"))]
         )
         val student : MutableSet<Student> = HashSet(),
-        @ManyToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+        @ManyToMany(cascade = [CascadeType.PERSIST,CascadeType.REMOVE], fetch = FetchType.LAZY)
         @JoinTable(
                 name = "bean__course_teacher",
-                joinColumns = arrayOf(JoinColumn(name = "id_course")),
-                inverseJoinColumns = arrayOf(JoinColumn(name = "id_teacher"))
+                joinColumns =  [(JoinColumn(name = "id_course"))],
+                inverseJoinColumns = [(JoinColumn(name = "id_teacher"))]
         )
-        val teacher : MutableSet<Teacher> = HashSet()
+        val teacher : MutableSet<Teacher> = HashSet(),
+
+        @Column(name = "create_date", updatable = false) @field:CreationTimestamp val createdDate: Date = Date(),
+
+        @Column(name = "update_date") @field:UpdateTimestamp val updatedDate : Date = Date()
 )

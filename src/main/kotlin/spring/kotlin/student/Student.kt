@@ -1,20 +1,29 @@
 package spring.kotlin.student
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import kotlinx.serialization.Serializable
+import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.UpdateTimestamp
+import java.util.*
 import javax.persistence.*
+import kotlin.collections.HashSet
 
 @Entity
 @Table(name = "bean__student")
 data class Student (
-        @Id @GeneratedValue(strategy = GenerationType.AUTO) val id : Long?,
-        val first_name : String,
-        val last_name : String,
-        val phone : String,
-        @ManyToOne(fetch = FetchType.LAZY, optional = false)
-        @JoinColumn(name = "id_teacher")
-        @JsonIgnore
-        val teacher: Teacher,
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id : Long?,
 
-        @ManyToMany(fetch = FetchType.LAZY, mappedBy = "student")
-        val course : MutableSet<Course> = HashSet()
+        @Column(name = "first_name", columnDefinition = "varchar(255)") val first_name : String,
+
+        @Column(name = "last_name", columnDefinition = "varchar(255)") val last_name : String,
+
+        @Column(name = "phone") val phone : String,
+
+        @ManyToOne(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST,CascadeType.REMOVE]) @JoinColumn(name = "id_teacher") @JsonIgnore val teacher: Teacher,
+
+        @ManyToMany(fetch = FetchType.LAZY, cascade = [CascadeType.PERSIST,CascadeType.REMOVE], mappedBy = "student") @JsonIgnore val course : MutableSet<Course> = HashSet(),
+
+        @Column(name = "create_date", updatable = false) @field:CreationTimestamp val createdDate: Date = Date(),
+
+        @Column(name = "update_date") @field:UpdateTimestamp val updatedDate : Date = Date()
 )

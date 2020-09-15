@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.fge.jsonpatch.JsonPatch
 import com.github.fge.jsonpatch.JsonPatchException
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 
 
 @RestController @CrossOrigin(origins = arrayOf("http://localhost:4200"))
-class StudentController(private val repository: StudentRepository) {
+class StudentController(@Autowired private val repository: StudentRepository) {
 
 
     @GetMapping("/student")

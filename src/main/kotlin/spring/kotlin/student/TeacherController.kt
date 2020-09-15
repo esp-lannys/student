@@ -5,13 +5,14 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.github.fge.jsonpatch.JsonPatch
 import com.github.fge.jsonpatch.JsonPatchException
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class TeacherController (private val repository: TeacherRepostitory){
+class TeacherController (@Autowired private val repository: TeacherRepostitory){
     @GetMapping("/teacher")
     fun getAllTeachers() = repository.findAll()
 

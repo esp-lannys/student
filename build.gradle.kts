@@ -3,9 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.3.3.BUILD-SNAPSHOT"
 	id("io.spring.dependency-management") version "1.0.9.RELEASE"
-	kotlin("jvm") version "1.3.72"
-	kotlin("plugin.spring") version "1.3.72"
-	kotlin("plugin.jpa") version "1.3.72"
+	kotlin("jvm") version "1.4.0"
+	kotlin("plugin.spring") version "1.4.0"
+	kotlin("plugin.jpa") version "1.4.0"
+	kotlin("plugin.serialization") version "1.4.0"
 }
 
 group = "spring.kotlin"
@@ -45,7 +46,8 @@ dependencies {
 	implementation("com.fasterxml.jackson.core:jackson-core:2.11.2")
 	implementation("com.soywiz.korlibs.klock:klock:1.8.4")
 	implementation ("com.soywiz.korlibs.klock:klock-jvm:1.8.4")
-
+	implementation(kotlin("stdlib", org.jetbrains.kotlin.config.KotlinCompilerVersion.VERSION))
+	implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.0-RC")
 	compileOnly("org.projectlombok:lombok")
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
