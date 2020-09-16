@@ -21,7 +21,8 @@ data class Course (
         @Column(name = "course_name", columnDefinition = "varchar(255)")
         val courseName : String,
         @Column(name = "room", columnDefinition = "varchar(255)")
-        val room : String,
+        val room : String
+) {
         @ManyToMany(cascade = [CascadeType.PERSIST,CascadeType.REMOVE], fetch = FetchType.LAZY)
         @JoinTable(
                 name = "bean__course_student",
@@ -29,7 +30,7 @@ data class Course (
                 inverseJoinColumns = [(JoinColumn(name = "id_student"))]
         )
         @JsonIgnore
-        val student : MutableSet<Student> = HashSet(),
+        val student : MutableSet<Student> = HashSet()
         @ManyToMany(cascade = [CascadeType.PERSIST,CascadeType.REMOVE], fetch = FetchType.LAZY)
         @JoinTable(
                 name = "bean__course_teacher",
@@ -37,9 +38,9 @@ data class Course (
                 inverseJoinColumns = [(JoinColumn(name = "id_teacher"))]
         )
         @JsonIgnore
-        val teacher : MutableSet<Teacher> = HashSet(),
+        val teacher : MutableSet<Teacher> = HashSet()
 
-        @Column(name = "create_date", updatable = false) @field:CreationTimestamp @Contextual val createdDate: Date = Date(),
+        @Column(name = "create_date", updatable = false) @field:CreationTimestamp @Temporal(TemporalType.TIMESTAMP) @Contextual val createdDate: Date = Date()
 
-        @Column(name = "update_date") @field:UpdateTimestamp @Contextual val updatedDate : Date = Date()
-)
+        @Column(name = "update_date") @field:UpdateTimestamp @Temporal(TemporalType.TIMESTAMP) @Contextual val updatedDate : Date = Date()
+}
