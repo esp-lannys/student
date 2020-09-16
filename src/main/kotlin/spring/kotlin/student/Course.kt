@@ -1,6 +1,9 @@
 package spring.kotlin.student
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
+import lombok.Data
 import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.UpdateTimestamp
 import java.util.*
@@ -9,6 +12,8 @@ import kotlin.collections.HashSet
 
 @Entity
 @Table(name = "bean__course")
+@Serializable
+@Data
 data class Course (
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +28,7 @@ data class Course (
                 joinColumns = [(JoinColumn(name = "id_course"))],
                 inverseJoinColumns = [(JoinColumn(name = "id_student"))]
         )
+        @JsonIgnore
         val student : MutableSet<Student> = HashSet(),
         @ManyToMany(cascade = [CascadeType.PERSIST,CascadeType.REMOVE], fetch = FetchType.LAZY)
         @JoinTable(
@@ -30,9 +36,10 @@ data class Course (
                 joinColumns =  [(JoinColumn(name = "id_course"))],
                 inverseJoinColumns = [(JoinColumn(name = "id_teacher"))]
         )
+        @JsonIgnore
         val teacher : MutableSet<Teacher> = HashSet(),
 
-        @Column(name = "create_date", updatable = false) @field:CreationTimestamp val createdDate: Date = Date(),
+        @Column(name = "create_date", updatable = false) @field:CreationTimestamp @Contextual val createdDate: Date = Date(),
 
-        @Column(name = "update_date") @field:UpdateTimestamp val updatedDate : Date = Date()
+        @Column(name = "update_date") @field:UpdateTimestamp @Contextual val updatedDate : Date = Date()
 )
