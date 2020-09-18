@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.*
 @RestController @CrossOrigin(origins = arrayOf("http://localhost:4200"))
 class StudentController(@Autowired private val repository: StudentRepository) {
 
-
     @GetMapping("/student")
     fun getAllStudents() = repository.findAll()
+
+    @GetMapping("student/course/{id}")
+    fun getStudentByCourse(@PathVariable id : Long) : List<Student> = repository.findStudentsByCourseId(id)
 
     @GetMapping("/student/{id}")
     fun findOneStudent(@PathVariable id : Long) : ResponseEntity<Student> {
@@ -31,8 +33,8 @@ class StudentController(@Autowired private val repository: StudentRepository) {
     fun updateStudentByID (@PathVariable id: Long , @RequestBody newStudent: Student) : ResponseEntity<Student> {
         return repository.findById(id).map { existingStudent ->
             val updatedStudent : Student = existingStudent.copy(
-                                                                first_name = newStudent.first_name,
-                                                                last_name = newStudent.last_name,
+                                                                firstName = newStudent.firstName,
+                                                                lastName = newStudent.lastName,
                                                                 phone = newStudent.phone)
             ResponseEntity.ok().body(repository.save(updatedStudent))
         }.orElse(ResponseEntity.notFound().build())

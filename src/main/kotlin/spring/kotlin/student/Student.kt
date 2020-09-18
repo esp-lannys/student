@@ -17,9 +17,9 @@ import kotlin.collections.HashSet
 data class Student (
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id : Long?,
 
-        @Column(name = "first_name", columnDefinition = "varchar(255)") val first_name : String,
+        @Column(name = "first_name", columnDefinition = "varchar(255)") val firstName : String,
 
-        @Column(name = "last_name", columnDefinition = "varchar(255)") val last_name : String,
+        @Column(name = "last_name", columnDefinition = "varchar(255)") val lastName : String,
 
         @Column(name = "phone", columnDefinition = "varchar(255)") val phone : String
 ) {
